@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nomad Travel — Еркіндік пен саяхат әлемі</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            850: '#064e3b',
+                            900: '#022c22',
+                        },
+                        gold: {
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- QRCode.js Library for dynamic QR generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dark-glass {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #059669;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-800 min-h-screen flex justify-center selection:bg-emerald-500 selection:text-white">
+
+    <!-- Mobile-First Container (Max width tablet size for optimal bio-link appearance) -->
+    <div class="w-full max-w-md bg-slate-50 min-h-screen shadow-2xl relative flex flex-col pb-24 overflow-x-hidden">
+
+        <!-- Top Header / Navigation -->
+        <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 text-white px-5 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-900/40 font-bold text-xl">
+                    <i class="fa-solid font-bold fa-compass animate-spin-slow"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg tracking-wide leading-tight bg-gradient-to-r from-emerald-400 via-teal-200 to-amber-300 bg-clip-text text-transparent">NOMAD TRAVEL</h1>
+                    <p class="text-[10px] text-emerald-400 tracking-wider uppercase font-medium">Еркіндік пен саяхат әлемі</p>
+                </div>
+            </div>
+
+            <!-- Header Quick Action: QR Code Button -->
+            <button onclick="openQrModal()" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center text-emerald-400 transition-all" title="QR Код">
+                <i class="fa-solid fa-qrcode text-base"></i>
+            </button>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="relative h-72 text-white flex flex-col justify-end p-6 bg-cover bg-center overflow-hidden" 
+                 style="background-image: linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.3)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80');">
+            
+            <div class="absolute top-4 right-4 bg-emerald-500/20 border border-emerald-400/40 backdrop-blur-md px-3 py-1 rounded-full text-xs text-emerald-300 font-semibold flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> 2026 Турлар ашық
+            </div>
+
+            <span class="text-amber-400 text-xs font-bold tracking-widest uppercase mb-1">Ұмытылмас әсер сыйлаймыз</span>
+            <h2 class="text-2xl font-black mb-2 leading-tight">Қазақстан & Әлем бойынша саяхаттаңыз</h2>
+            <p class="text-slate-300 text-xs mb-4 line-clamp-2">Шынбулақ, Көлсай, Шарм-эль-Шейх, Дубай және Мальдивы. Сенімді туроператор.</p>
+            
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="openBookingModal('Жалпы кеңес алу')" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-lg shadow-emerald-900/50 text-xs flex items-center justify-center gap-2 transition-all active:scale-95">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Бронь жасау
+                </button>
+                <a href="#calculator" class="bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700 font-medium py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition-all active:scale-95">
+                    <i class="fa-solid fa-calculator text-amber-400"></i> Есептеу
+                </a>
+            </div>
+        </section>
+
+        <!-- Quick Stats Banner -->
+        <div class="bg-slate-900 text-slate-300 px-4 py-3 border-b border-slate-800 grid grid-cols-3 text-center text-xs">
+            <div class="border-r border-slate-800">
+                <p class="text-emerald-400 font-extrabold text-base">5,000+</p>
+                <p class="text-[10px] text-slate-400">Саяхатшы</p>
+            </div>
+            <div class="border-r border-slate-800">
+                <p class="text-amber-400 font-extrabold text-base">4.9 ★</p>
+                <p class="text-[10px] text-slate-400">Рейтинг</p>
+            </div>
+            <div>
+                <p class="text-teal-400 font-extrabold text-base">24/7</p>
+                <p class="text-[10px] text-slate-400">Қолдау</p>
+            </div>
+        </div>
+
+        <!-- Main Categories & Tour Tabs -->
+        <main class="p-4 space-y-6">
+
+            <!-- Category Selector Pills -->
+            <section>
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-compass text-emerald-600"></i> Тур Бағыттары
+                    </h3>
+                    <span class="text-[11px] text-slate-500">Санатты таңдаңыз</span>
+                </div>
+
+                <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-none text-xs font-semibold">
+                    <button onclick="filterTours('all')" id="tab-all" class="tour-tab-btn active bg-emerald-600 text-white px-4 py-2 rounded-xl whitespace-nowrap shadow-sm transition-all">
+                        Барлығы
+                    </button>
+                    <button onclick="filterTours('kazakhstan')" id="tab-kazakhstan" class="tour-tab-btn bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-xl whitespace-nowrap shadow-sm transition-all">
+                        🏞️ Қазақстан
+                    </button>
+                    <button onclick="filterTours('abroad')" id="tab-abroad" class="tour-tab-btn bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-xl whitespace-nowrap shadow-sm transition-all">
+                        🏖️ Шетел
+                    </button>
+                    <button onclick="filterTours('vip')" id="tab-vip" class="tour-tab-btn bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-xl whitespace-nowrap shadow-sm transition-all">
+                        👑 VIP & Жеке
+                    </button>
+                    <button onclick="filterTours('visa')" id="tab-visa" class="tour-tab-btn bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-xl whitespace-nowrap shadow-sm transition-all">
+                        🛂 Виза
+                    </button>
+                </div>
+            </section>
+
+            <!-- Tour Cards Grid -->
+            <section class="space-y-4" id="tours-container">
+                
+                <!-- Tour 1: Kolsai & Kaindy -->
+                <div class="tour-card kazakhstan bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                    <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80');">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Авторлық тур</span>
+                        <span class="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur-md text-amber-400 text-xs font-bold px-3 py-1 rounded-lg">15,000 ₸-ден</span>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center text-xs text-slate-500 gap-3 mb-1">
+                            <span><i class="fa-regular fa-clock text-emerald-600"></i> 1-2 Күн</span>
+                            <span><i class="fa-solid fa-location-dot text-emerald-600"></i> Алматы облысы</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-base mb-1">Көлсай, Қайыңды & Шарын шатқалы</h4>
+                        <p class="text-slate-600 text-xs mb-4 line-clamp-2">Керемет табиғат құшағында демалыңыз. Транспорт, гид, таңғы ас пен фотосессия ішінде!</p>
+                        
+                        <div class="flex items-center gap-2">
+                            <button onclick="openBookingModal('Көлсай, Қайыңды & Шарын туралы')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 transition-all">
+                                <i class="fa-brands fa-whatsapp text-sm"></i> Өтінім беру
+                            </button>
+                            <button onclick="showTourDetails('kolsai')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium py-2.5 px-3 rounded-xl transition-all">
+                                Толығырақ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tour 2: Egypt / Red Sea -->
+                <div class="tour-card abroad bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                    <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&w=600&q=80');">
+                        <span class="absolute top-3 left-3 bg-amber-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">All Inclusive</span>
+                        <span class="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur-md text-amber-400 text-xs font-bold px-3 py-1 rounded-lg">220,000 ₸-ден</span>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center text-xs text-slate-500 gap-3 mb-1">
+                            <span><i class="fa-regular fa-clock text-emerald-600"></i> 7 Түн / 8 Күн</span>
+                            <span><i class="fa-solid fa-plane text-emerald-600"></i> Египет, Шарм-Эль-Шейх</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-base mb-1">Египет — Қызыл теңіз жағалауы</h4>
+                        <p class="text-slate-600 text-xs mb-4 line-clamp-2">Люкс отельдер, 5-жұлдызды сервис, тікелей ұшу рейстері және дайын виза.</p>
+                        
+                        <div class="flex items-center gap-2">
+                            <button onclick="openBookingModal('Египет туры бойынша')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 transition-all">
+                                <i class="fa-brands fa-whatsapp text-sm"></i> Бағасын білу
+                            </button>
+                            <button onclick="showTourDetails('egypt')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium py-2.5 px-3 rounded-xl transition-all">
+                                Толығырақ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tour 3: Dubai UAE -->
+                <div class="tour-card abroad bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                    <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80');">
+                        <span class="absolute top-3 left-3 bg-teal-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Танымал Бағыт</span>
+                        <span class="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur-md text-amber-400 text-xs font-bold px-3 py-1 rounded-lg">280,000 ₸-ден</span>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center text-xs text-slate-500 gap-3 mb-1">
+                            <span><i class="fa-regular fa-clock text-emerald-600"></i> 5-7 Түн</span>
+                            <span><i class="fa-solid fa-building text-emerald-600"></i> БАӘ, Дубай</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-base mb-1">Дубай — Сәулет пен Шопинг Шаһары</h4>
+                        <p class="text-slate-600 text-xs mb-4 line-clamp-2">Бурдж Халифа, шөл сафариі және Парсы шығанағының жылы теңізі.</p>
+                        
+                        <div class="flex items-center gap-2">
+                            <button onclick="openBookingModal('Дубай туры бойынша')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 transition-all">
+                                <i class="fa-brands fa-whatsapp text-sm"></i> Кеңес алу
+                            </button>
+                            <button onclick="showTourDetails('dubai')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium py-2.5 px-3 rounded-xl transition-all">
+                                Толығырақ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tour 4: VIP Tours -->
+                <div class="tour-card vip bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                    <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80');">
+                        <span class="absolute top-3 left-3 bg-slate-900 text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-amber-400/40">👑 VIP Сервис</span>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center text-xs text-slate-500 gap-3 mb-1">
+                            <span><i class="fa-solid fa-user-shield text-emerald-600"></i> Жеке Көлік & Гид</span>
+                            <span><i class="fa-solid fa-star text-amber-500"></i> Premium</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-base mb-1">Жеке & VIP Турлар (Эксклюзив)</h4>
+                        <p class="text-slate-600 text-xs mb-4">Тек сіздің отбасыңызға немесе ұжымыңызға арналған арнайы дайындалатын маршруттар.</p>
+                        
+                        <button onclick="openBookingModal('VIP Тур туралы кеңес')" class="w-full bg-slate-900 hover:bg-slate-800 text-amber-400 border border-slate-700 text-xs font-bold py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 transition-all">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Жеке Маршрут Есептету
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tour 5: Visa Support -->
+                <div class="tour-card visa bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                    <div class="p-4 flex gap-4 items-center">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center text-2xl shrink-0 shadow-md">
+                            <i class="fa-solid fa-passport"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md uppercase">Кепілдікпен</span>
+                            <h4 class="font-bold text-slate-900 text-base">Визалық Қолдау</h4>
+                            <p class="text-slate-500 text-xs">Шенген, АҚШ, Ұлыбритания, Азия елдеріне виза дайындау.</p>
+                        </div>
+                    </div>
+                    <div class="px-4 pb-4">
+                        <button onclick="openBookingModal('Виза бойынша консультация')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 transition-all">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Визаға Кеңес Алу
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Interactive Tour Price Estimator -->
+            <section id="calculator" class="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 text-white p-5 rounded-2xl shadow-xl border border-slate-700 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-sm text-emerald-400 flex items-center gap-2">
+                            <i class="fa-solid fa-calculator"></i> Экспресс Калькулятор
+                        </h3>
+                        <p class="text-[11px] text-slate-400">Саяхатыңыздың болжамды бағасын есептеңіз</p>
+                    </div>
+                    <span class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-1 rounded-md">Авто-есеп</span>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="block text-slate-300 font-medium mb-1">Саяхат бағыты:</label>
+                        <select id="calc-destination" onchange="calculatePrice()" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-500">
+                            <option value="kolsai">Көлсай & Қайыңды (15,000 ₸/адам)</option>
+                            <option value="egypt">Египет All Inclusive (220,000 ₸/адам)</option>
+                            <option value="dubai">Дубай Тур (280,000 ₸/адам)</option>
+                            <option value="turkey">Түркия Анталья (250,000 ₸/адам)</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-slate-300 font-medium mb-1">Адам саны:</label>
+                            <input type="number" id="calc-people" min="1" max="20" value="2" onchange="calculatePrice()" oninput="calculatePrice()" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 font-medium mb-1">Отель класы:</label>
+                            <select id="calc-hotel" onchange="calculatePrice()" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-500">
+                                <option value="1">Стандарт (3-4★)</option>
+                                <option value="1.3">Люкс (5★)</option>
+                                <option value="1.6">VIP Premium</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700 flex items-center justify-between mt-2">
+                        <div>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Жалпы шамамен бағасы:</span>
+                            <span id="calc-total" class="text-lg font-black text-amber-400">30,000 ₸</span>
+                        </div>
+                        <button onclick="bookCalculatedTour()" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-xs font-bold py-2 px-3 rounded-lg shadow-md transition-all">
+                            Осы бағаға жазылу
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why Choose Us Cards -->
+            <section class="space-y-3">
+                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-emerald-600"></i> Неге Nomad Travel?
+                </h3>
+                
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-2 font-bold">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                        <h5 class="font-bold text-slate-900 mb-0.5">Кәсіби Гидтер</h5>
+                        <p class="text-slate-500 text-[11px]">Көп жылдық тәжірибесі бар мамандар.</p>
+                    </div>
+                    
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center mb-2 font-bold">
+                            <i class="fa-solid fa-file-contract"></i>
+                        </div>
+                        <h5 class="font-bold text-slate-900 mb-0.5">Ресми Келісімшарт</h5>
+                        <p class="text-slate-500 text-[11px]">Толық заңдылық пен қауіпсіздік.</p>
+                    </div>
+
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="w-8 h-8 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center mb-2 font-bold">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <h5 class="font-bold text-slate-900 mb-0.5">24/7 Серіктес</h5>
+                        <p class="text-slate-500 text-[11px]">Саяхат кезінде әрдайым байланыстамыз.</p>
+                    </div>
+
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mb-2 font-bold">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <h5 class="font-bold text-slate-900 mb-0.5">Бонустық бағдарлама</h5>
+                        <p class="text-slate-500 text-[11px]">Тұрақты клиенттерге жеңілдіктер.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-quote-left text-emerald-600"></i> Клиенттер пікірі
+                </h3>
+                
+                <div class="space-y-3 text-xs">
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold text-slate-800">Әйгерім Серікқызы</span>
+                            <div class="text-amber-400 text-[10px]">★★★★★</div>
+                        </div>
+                        <p class="text-slate-600 text-[11px]">"Көлсайға тур өте жоғары деңгейде өтті! Гид өте кішіпейіл, фотоларымыз керемет шықты. Келесі жолы Египетке Nomad Travel арқылы барамыз!"</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold text-slate-800">Данияр & Отбасы</span>
+                            <div class="text-amber-400 text-[10px]">★★★★★</div>
+                        </div>
+                        <p class="text-slate-600 text-[11px]">"Дубайға отбасымызбен барып келдік. Отельді дұрыс таңдап берді, ешқандай проблема болмады. Рахмет сіздерге!"</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact & Social Links (Taplink style) -->
+            <section class="space-y-3 pt-2">
+                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-address-book text-emerald-600"></i> Байланыс & Сілтемелер
+                </h3>
+
+                <div class="space-y-2">
+                    <a href="https://wa.me/77470124357?text=Сәлеметсіз бе! Nomad Travel турлары бойынша ақпарат алғым келеді." target="_blank" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-4 rounded-xl shadow-sm flex items-center justify-between text-xs transition-all">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp-қа жазу
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-xs opacity-75"></i>
+                    </a>
+
+                    <a href="tel:+77470124357" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl shadow-sm flex items-center justify-between text-xs transition-all">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-emerald-400 text-base"></i> Тікелей қоңырау шалу (+7 747 012 43 57)
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-xs opacity-75"></i>
+                    </a>
+
+                    <a href="https://instagram.com" target="_blank" class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 text-white font-bold py-3 px-4 rounded-xl shadow-sm flex items-center justify-between text-xs transition-all">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-brands fa-instagram text-lg"></i> Instagram Профиль
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-xs opacity-75"></i>
+                    </a>
+
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-xs flex items-center gap-3">
+                        <i class="fa-solid fa-location-dot text-red-500 text-lg"></i>
+                        <div>
+                            <p class="font-bold text-slate-900">Мекен-жайымыз:</p>
+                            <p class="text-slate-500 text-[11px]">Алматы қ., Достық даңғылы 105, 3-офис</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-auto bg-slate-900 text-slate-400 p-6 text-center text-xs space-y-2">
+            <div class="flex justify-center items-center gap-2 text-white font-bold tracking-wider">
+                <i class="fa-solid fa-compass text-emerald-400"></i> NOMAD TRAVEL
+            </div>
+            <p class="text-[11px] text-slate-500">© 2026 Nomad Travel. Барлық құқықтар қорғалған.</p>
+            <div class="pt-2">
+                <button onclick="openQrModal()" class="text-[11px] text-emerald-400 hover:underline flex items-center gap-1 mx-auto">
+                    <i class="fa-solid fa-qrcode"></i> Осы сайттың QR-кодын көрсету
+                </button>
+            </div>
+        </footer>
+
+        <!-- Sticky Bottom Bar for Quick Action -->
+        <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-slate-900/95 backdrop-blur-md border-t border-slate-800 p-3 px-5 flex items-center justify-between z-30">
+            <div>
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Сұрақтарыңыз бар ма?</p>
+                <p class="text-xs text-white font-bold">Тегін консультация</p>
+            </div>
+            <button onclick="openBookingModal('Тікелей хабарласу')" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-lg shadow-emerald-900/50 flex items-center gap-2 transition-all active:scale-95">
+                <i class="fa-brands fa-whatsapp text-sm"></i> Жазу
+            </button>
+        </div>
+
+    </div>
+
+    <!-- MODAL 1: Booking / WhatsApp Form Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl border border-slate-100 animate-in fade-in zoom-in duration-200">
+            <div class="bg-slate-900 text-white p-4 flex justify-between items-center">
+                <h4 class="font-bold text-sm flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i> WhatsApp Өтінім
+                </h4>
+                <button onclick="closeBookingModal()" class="text-slate-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form onsubmit="sendToWhatsApp(event)" class="p-4 space-y-3 text-xs">
+                <div>
+                    <label class="block text-slate-700 font-semibold mb-1">Таңдалған қызмет/тур:</label>
+                    <input type="text" id="modalTourName" readonly class="w-full bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 font-medium">
+                </div>
+
+                <div>
+                    <label class="block text-slate-700 font-semibold mb-1">Аты-жөніңіз:</label>
+                    <input type="text" id="modalUserName" required placeholder="Мысалы: Арман" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-emerald-600">
+                </div>
+
+                <div>
+                    <label class="block text-slate-700 font-semibold mb-1">Саяхатшылар саны:</label>
+                    <select id="modalPeopleCount" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-emerald-600">
+                        <option value="1 адам">1 адам</option>
+                        <option value="2 адам" selected>2 адам</option>
+                        <option value="3-5 адам">3-5 адам</option>
+                        <option value="Отбасылық / Топтық">Отбасылық / Топтық</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-slate-700 font-semibold mb-1">Қосымша сұрақ немесе ыңғайлы күн:</label>
+                    <textarea id="modalNote" rows="2" placeholder="Қай айда саяхаттауды жоспарлап отырсыз?" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-emerald-600"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-emerald-700/30 text-xs flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp-қа Жіберу
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Dynamic QR Code Modal -->
+    <div id="qrModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl p-5 text-center space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-qrcode text-emerald-600"></i> Сайттың QR-Коды
+                </h4>
+                <button onclick="closeQrModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-slate-600">Осы QR-кодты визиткаға немесе баннерге қойып, клиенттерді сайтқа бағыттауға болады.</p>
+            
+            <div id="qrcode" class="flex justify-center p-3 bg-slate-50 rounded-xl border border-slate-200"></div>
+
+            <div class="text-[11px] text-slate-400 break-all font-mono bg-slate-100 p-2 rounded-lg" id="qrUrlText">
+                https://nomad-travel.kz
+            </div>
+
+            <button onclick="closeQrModal()" class="w-full bg-slate-900 text-white text-xs font-bold py-2.5 rounded-xl">
+                Жабу
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Tour Details Modal -->
+    <div id="detailsModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl border border-slate-100">
+            <div class="bg-slate-900 text-white p-4 flex justify-between items-center">
+                <h4 id="detailTitle" class="font-bold text-sm">Тур туралы ақпарат</h4>
+                <button onclick="closeDetailsModal()" class="text-slate-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-4 space-y-3 text-xs text-slate-700" id="detailContent">
+                <!-- Content dynamically populated -->
+            </div>
+            <div class="p-4 border-t border-slate-100 bg-slate-50">
+                <button id="detailBookBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Осы турды броньдау
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // WhatsApp Phone Number
+        const WHATSAPP_NUMBER = "77470124357";
+
+        // Filter Tours Functionality
+        function filterTours(category) {
+            const cards = document.querySelectorAll('.tour-card');
+            const tabs = document.querySelectorAll('.tour-tab-btn');
+
+            // Reset Tab styling
+            tabs.forEach(tab => {
+                tab.classList.remove('bg-emerald-600', 'text-white');
+                tab.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+            });
+
+            // Highlight Active Tab
+            const activeTab = document.getElementById(`tab-${category}`);
+            if(activeTab) {
+                activeTab.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                activeTab.classList.add('bg-emerald-600', 'text-white');
+            }
+
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Tour Calculator
+        function calculatePrice() {
+            const dest = document.getElementById('calc-destination').value;
+            const people = parseInt(document.getElementById('calc-people').value) || 1;
+            const hotelMultiplier = parseFloat(document.getElementById('calc-hotel').value) || 1;
+
+            let basePrice = 15000;
+            if (dest === 'egypt') basePrice = 220000;
+            if (dest === 'dubai') basePrice = 280000;
+            if (dest === 'turkey') basePrice = 250000;
+
+            const total = Math.round(basePrice * people * hotelMultiplier);
+            document.getElementById('calc-total').innerText = total.toLocaleString('kk-KZ') + ' ₸';
+        }
+
+        function bookCalculatedTour() {
+            const destSelect = document.getElementById('calc-destination');
+            const destName = destSelect.options[destSelect.selectedIndex].text;
+            const total = document.getElementById('calc-total').innerText;
+            openBookingModal(`Есептелген тур: ${destName} (${total})`);
+        }
+
+        // Booking Modal Operations
+        function openBookingModal(tourName) {
+            document.getElementById('modalTourName').value = tourName;
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+        }
+
+        function sendToWhatsApp(event) {
+            event.preventDefault();
+            const tour = document.getElementById('modalTourName').value;
+            const name = document.getElementById('modalUserName').value;
+            const people = document.getElementById('modalPeopleCount').value;
+            const note = document.getElementById('modalNote').value;
+
+            let message = `Сәлеметсіз бе! Nomad Travel туралы өтінім қалдырамын:\n\n`;
+            message += `📌 *Тур/Қызмет:* ${tour}\n`;
+            message += `👤 *Аты-жөні:* ${name}\n`;
+            message += `👥 *Адам саны:* ${people}\n`;
+            if (note) message += `📝 *Қосымша:* ${note}\n`;
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
+            closeBookingModal();
+        }
+
+        // Tour Details Modal Data & Operations
+        const tourDetailsData = {
+            kolsai: {
+                title: "Көлсай, Қайыңды & Шарын тур бағдарламасы",
+                content: `
+                    <p class="font-semibold text-slate-800">Бағдарламада:</p>
+                    <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                        <li>Жайлы комфорт-класс автобуспен тасымалдау</li>
+                        <li>Көлсай көлі және Қайыңды су асты орманы</li>
+                        <li>Шарын "Қамалдар алқабы" каньоны</li>
+                        <li>Тәжірибелі гид сүйемелдеуі</li>
+                        <li>Табиғат қорығына кіру билеттері</li>
+                    </ul>
+                    <p class="mt-2 text-emerald-700 font-bold">Шығу күндері: Әр сенбі және жексенбі</p>
+                `
+            },
+            egypt: {
+                title: "Египет (Шарм-Эль-Шейх) Тур Пакеті",
+                content: `
+                    <p class="font-semibold text-slate-800">Тур бағасына кіреді:</p>
+                    <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                        <li>Екі жаққа тікелей авиабилеттер</li>
+                        <li>5★ Отельде тұру (All Inclusive)</li>
+                        <li>Трансфер (Аэропорт - Отель - Аэропорт)</li>
+                        <li>Медициналық сақтандыру</li>
+                    </ul>
+                    <p class="mt-2 text-amber-600 font-bold">Бөліп төлеу (Kaspi Red/Кредит) қарастырылған!</p>
+                `
+            },
+            dubai: {
+                title: "Дубай (БАӘ) Шопинг & Демалыс",
+                content: `
+                    <p class="font-semibold text-slate-800">Тур бағдарламасында:</p>
+                    <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                        <li>Алматы/Астана қалаларынан тікелей ұшу</li>
+                        <li>Жағалауға жақын отельдер</li>
+                        <li>Шөл сафариі және кешкі ас (бонус ретінде)</li>
+                        <li>Жеке трансфер мүмкіндігі</li>
+                    </ul>
+                    <p class="mt-2 text-teal-700 font-bold">Виза талап етілмейді (30 күнге дейін)</p>
+                `
+            }
+        };
+
+        function showTourDetails(key) {
+            const data = tourDetailsData[key];
+            if (!data) return;
+            document.getElementById('detailTitle').innerText = data.title;
+            document.getElementById('detailContent').innerHTML = data.content;
+            document.getElementById('detailBookBtn').onclick = function() {
+                closeDetailsModal();
+                openBookingModal(data.title);
+            };
+            document.getElementById('detailsModal').classList.remove('hidden');
+        }
+
+        function closeDetailsModal() {
+            document.getElementById('detailsModal').classList.add('hidden');
+        }
+
+        // QR Code Generator Modal
+        let qrGenerated = false;
+        function openQrModal() {
+            document.getElementById('qrModal').classList.remove('hidden');
+            const currentUrl = window.location.href;
+            document.getElementById('qrUrlText').innerText = currentUrl;
+
+            if (!qrGenerated) {
+                document.getElementById("qrcode").innerHTML = "";
+                new QRCode(document.getElementById("qrcode"), {
+                    text: currentUrl,
+                    width: 160,
+                    height: 160,
+                    colorDark: "#022c22",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                qrGenerated = true;
+            }
+        }
+
+        function closeQrModal() {
+            document.getElementById('qrModal').classList.add('hidden');
+        }
+
+        // Init calculations on load
+        window.onload = function() {
+            calculatePrice();
+        };
+    </script>
+</body>
+</html>
